@@ -1,0 +1,33 @@
+{% extends "base_generic.html" %}
+
+{% block page-title %} <h1 class="h2">BUY/SELL STOCKS</h1> {% endblock %}
+{% block cash %}<h1 class="h2">Cash: ${{ cash }}</h1>{% endblock %}
+
+{% block user %} {{ user }} {% endblock %}
+
+{% block signout %}
+            <div class="nav-item text-nowrap">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary nav-link px-3">Sign Out</button>
+                </form>
+            </div>
+{% endblock %}
+
+{% block content %}
+<div class="buy-stock">
+    <form action="{% url 'interact' %}" method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="form-container" style="display: flex;">
+            {% for field in form %}
+            <div style="margin-right: 15px;">
+                {{ field.label_tag }} {{ field }} {{ field.errors }}
+            </div>
+            {% endfor %}
+            <input type="submit" name="buy_stock" value="BUY" style="height: 50%; margin-right: 15px;">
+            <input type="submit" name="sell_stock" value="SELL" style="height: 50%;">
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+{% extends "base_generic.html" %}
+
+{% block scripts %}
+{{ labels|json_script:"labels-data" }}
+{{ data|json_script:"stock-data" }}
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    $(document).ready(function(){
+      const ctx = document.getElementById('myChart');
+      var labels_data = JSON.parse(document.getElementById('labels-data').textContent);
+      var stock_data = JSON.parse(document.getElementById('stock-data').textContent);
+      new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels: labels_data,
+          datasets: [{
+            data: stock_data,
+            borderWidth: 1
+          }]
+        },
+        options: {
+          plugins: {
+            legend: {
+                display: false
+            },
+          }
+        }
+      });
+      })
+  </script>
+{% endblock %}
+
+{% block page-title %} <h1 class="h2">PORTFOLIO</h1> {% endblock %}
+{% block cash %}<h1 class="h2">Cash: ${{ cash }}</h1>{% endblock %}
+
+{% block user %} {{ user }} {% endblock %}
+
+{% block signout %}
+            <div class="nav-item text-nowrap">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary nav-link px-3">Sign Out</button>
+                </form>
+            </div>
+{% endblock %}
+
+{% block content %}
+<div class="portfolio-stats d-flex align-items-center">
+  <div>
+    <h1 style="text-align: center;">${{ total_value }}</h1>
+    <div>
+      <canvas id="myChart" style="margin-right: 15px;"></canvas>
+    </div>
+  </div>
+    <div class="p-table">
+        <table id="myTable" style="width:100%">
+          <thead class="main-headings">
+            <th>Stock</th>
+            <th>Buy Price</th>
+            <th>Current Price</th>
+            <th>Quantity</th>
+            <th>Profit</th>
+            <th>Date Purchased</th>
+          </thead>
+          {% if all_stocks %}
+          <tbody>
+            {% for stock in all_stocks %}
+            <tr>
+                <td>{{ stock.stock }}</td>
+                <td>{{ stock.buy_price }}</td>
+                <td>{{ stock.cur_price }}</td>
+                <td>{{ stock.quantity }}</td>
+                <td>{{ stock.profit }}</td>
+                <td>{{ stock.date_purchased }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+           {% else %}
+           <tbody>
+            <tr>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
+              <td>N/A</td>
+          </tr>
+           </tbody>
+           {% endif %}
+            </table>
+    </div>
+</div>
+{% endblock %}

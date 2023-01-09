@@ -1,0 +1,21 @@
+{% extends "base_generic.html" %}
+
+{% block page-title %} <h1 class="h2">Signup</h1> {% endblock %}
+
+{% block signout %}
+            <div class="nav-item text-nowrap">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary nav-link px-3" style="visibility:hidden">Sign Out</button>
+                </form>
+            </div>
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'signup' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Signup">
+    </form>
+    <p>Already have an account? Login <a href="{% url 'login' %}">here</a></p>
+{% endblock %}

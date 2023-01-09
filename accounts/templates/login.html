@@ -1,0 +1,25 @@
+{% extends "base_generic.html" %}
+
+{% block page-title %} <h1 class="h2">Login</h1> {% endblock %}
+
+{% block signout %}
+            <div class="nav-item text-nowrap">
+                <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline-secondary nav-link px-3" style="visibility:hidden">Sign Out</button>
+                </form>
+            </div>
+{% endblock %}
+
+{% block content %}
+    <form action="{% url 'login' %}" method="post">
+        {% csrf_token %}
+        {{ form }}
+
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+        <input type="submit" value="Login">
+    </form>
+    <p>Don't have an account? Sign up <a href="{% url 'signup' %}">here</a></p>
+{% endblock %}

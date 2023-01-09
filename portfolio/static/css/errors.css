@@ -1,0 +1,8 @@
+.errorlist {
+    list-style-type: none;
+    color: red;
+}
+
+ul {
+    padding: 0px;
+}
