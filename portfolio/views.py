@@ -65,7 +65,7 @@ def interact(request):
                 quantity = form.cleaned_data['quantity']
                 data = yf.download(tickers=stock, period='1d', interval='1h')
                 stock_buy_price = round(float(data['Open'].iloc[-1]), 2)
-                total_price = stock_buy_price * quantity
+                total_price = round(stock_buy_price * quantity, 2)
 
                 p_object = in_portfolio[0]
                 p_object.buy_price = (float(p_object.buy_price) + stock_buy_price) / 2

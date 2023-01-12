@@ -22,6 +22,8 @@ load_dotenv()
 
 SECRET_KEY_VAL = os.getenv('SECRET_KEY_VAL')
 DEBUG_VAL = os.getenv('DEBUG_VAL')
+PORT = os.getenv('PORT')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -88,8 +90,12 @@ WSGI_APPLICATION = 'StockSim.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'portfolio',
+        'USER': 'postgres',
+        'PASSWORD': DB_PASSWORD,
+        'HOST': 'localhost',
+        'PORT': PORT,
     }
 }
 
